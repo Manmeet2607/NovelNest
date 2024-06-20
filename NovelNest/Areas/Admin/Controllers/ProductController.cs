@@ -1,15 +1,18 @@
 ﻿
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Hosting;
 using NovelNest.Models.Models;
 using NovelNest.Models.ViewModels;
 using NovelNest.Repository.IRepository;
+using NovelNest.Utility;
 
 namespace NovelNest.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

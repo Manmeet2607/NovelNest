@@ -1,13 +1,16 @@
 ﻿
 
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NovelNest.Models.Models;
 using NovelNest.Repository.IRepository;
+using NovelNest.Utility;
 
 namespace NovelNest.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles=SD.Role_Admin)]
+    [Authorize(Roles=SD.Role_Admin)]   //tp prevent direct link access
 
     public class CategoryController : Controller
     {

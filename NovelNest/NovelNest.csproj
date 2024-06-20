@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-preview.3.24172.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,12 +23,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="Stripe.net" Version="44.7.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NovelNest.DataAccess\NovelNest.DataAccess.csproj" />
     <ProjectReference Include="..\NovelNest.Models\NovelNest.Models.csproj" />
-    <ProjectReference Include="..\NovelNest.Utility\NovelNest.Utility.vbproj" />
+    <ProjectReference Include="..\NovelNest.Utility\NovelNest.Utility.csproj" />
   </ItemGroup>
 
 </Project>

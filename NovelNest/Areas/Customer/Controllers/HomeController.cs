@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NovelNest.Models;
 using NovelNest.Models.Models;
 using NovelNest.Repository.IRepository;
 using System.Diagnostics;
@@ -29,46 +28,43 @@ namespace NovelNest.Areas.Customer.Controllers
         public IActionResult Details(int productid)
         {
 
-            Product product = _unitOfWork.Product.Get(u => u.Id == productid, includeProperties: "Category");
-                
-            
+            ShoppingCart cart = new()
+            {
+                Product = _unitOfWork.Product.Get(u => u.Id == productid, includeProperties: "Category"),
+                Count = 1,
+                ProductId = productid
+            };
 
-            return View(product);
+            return View(cart);
         }
 
-        //[HttpPost]
-        //[Authorize] // to get userid of user that is logged in
-        //public IActionResult Details(ShoppingCart shoppingcart)
-        //{
+        [HttpPost]
+        [Authorize] // to get userid of user that is logged in
+        public IActionResult Details(ShoppingCart shoppingcart)
+        {
 
-        //    //to get user id of logged in user we have these default methods
-        //    var claimsIdentity = (ClaimsIdentity)User.Identity;
-        //    var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //    shoppingcart.ApplicationUserId = userId;
-        //    //to check if the user doesnt already exist with the shopping cart.If exists we update the user cart else add new user to it.
-        //    ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId && u.ProductId == shoppingcart.ProductId);
-        //    if (cartFromDb != null)
-        //    {
-        //        cartFromDb.Count += shoppingcart.Count;
-        //        _unitOfWork.ShoppingCart.Update(cartFromDb);
-        //        _unitOfWork.Save();
-        //    }
-        //    else
-        //    {
-        //        _unitOfWork.ShoppingCart.Add(shoppingcart);
-        //        _unitOfWork.Save();
-        //    }
-        //    TempData["success"] = "Cart updated successfully";
-
-
-
-
-
-
-
-        //    return RedirectToAction("Index");
-        //    //return RedirectToAction(nameof(Index);
-        //}
+            //to get user id of logged in user we have these default methods
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingcart.ApplicationUserId = userId;
+            //to check if the user doesnt already exist with the shopping cart.If exists we update the user cart else add new user to it.
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId && u.ProductId == shoppingcart.ProductId);
+            if (cartFromDb != null)
+            {
+                cartFromDb.Count += shoppingcart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);  //update the already present cart in db with the new count
+                //even if we dont write the update when we change the count and do the save command it automatically updates first
+                _unitOfWork.Save();
+            }
+            else
+            {
+                _unitOfWork.ShoppingCart.Add(shoppingcart);
+                _unitOfWork.Save();
+            }
+            TempData["success"] = "Cart updated successfully";
+            return RedirectToAction("Index");
+            //return RedirectToAction(nameof(Index);
+        }
 
         public IActionResult Privacy()
         {

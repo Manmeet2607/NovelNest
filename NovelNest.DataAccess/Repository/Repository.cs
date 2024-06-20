@@ -43,7 +43,7 @@ namespace NovelNest.Repository
                 return query.FirstOrDefault();
             }
             else
-            {//to prevent EF from tracking an entity that has been reterived
+            {//to prevent EF from tracking an entity that has been reterived as in case of shoppingcart
                 IQueryable<T> query = dbSet.AsNoTracking();
                 query = query.Where(filter);
                 if (!string.IsNullOrEmpty(includeProperties))

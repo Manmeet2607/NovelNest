@@ -1,4 +1,4 @@
-﻿namespace Bulky.Models
+﻿namespace NovelNest.cs
 {
     public class Class1
     {
